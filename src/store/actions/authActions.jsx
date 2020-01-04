@@ -20,11 +20,12 @@ export const signOut = () => {
     console.log(firestore);
 
     firebase
-      .auth()
-      .signOut()
       .logout()
       .then(() => {
         dispatch({ type: "SIGNOUT_SUCCESS" });
+      })
+      .catch(err => {
+        dispatch({ type: "SIGNOUT_ERROR" });
       });
   };
 };
