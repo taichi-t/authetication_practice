@@ -14,12 +14,15 @@ export const signIn = credentials => {
 };
 
 export const signOut = () => {
-  return (dispatch, getState, { getFirebase }) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
+    const firestore = getState();
+    console.log(firestore);
 
     firebase
       .auth()
       .signOut()
+      .logout()
       .then(() => {
         dispatch({ type: "SIGNOUT_SUCCESS" });
       });

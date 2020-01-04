@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { signOut } from "../../store/actions/authActions";
 
 const SignedInLinks = props => {
+  console.log(props);
   return (
     <ul className="right">
       <li>
@@ -23,7 +24,7 @@ const SignedInLinks = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signOut: () => dispatch(signOut())
+    signOut: listeners => dispatch(signOut(listeners))
   };
 };
 
