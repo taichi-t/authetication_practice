@@ -19,7 +19,7 @@ class ProjectSummary extends Component {
           </i>
           <span className="card-title">{project.title}</span>
           <p>
-            Posted by the {project.authorFirstName} {project.authorLastName}
+            Posted by {project.authorFirstName} {project.authorLastName}
           </p>
           <p className="grey-text">
             {moment(project.createdAt.toDate().toString()).calendar()}

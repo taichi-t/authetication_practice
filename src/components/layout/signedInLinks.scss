@@ -1,0 +1,32 @@
+.signedInLinks_css {
+  padding: 0 20.1% 32px 20.1%;
+  font-family: Source Sans Pro, sans-serif;
+  svg {
+    font-size: 30px;
+  }
+
+  .signedInLinks {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .logout_link {
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #2b2c32;
+    line-height: 4rem;
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .signedInLinks_items {
+    display: flex;
+    align-items: center;
+  }
+  .MuiAvatar-root {
+    margin-left: 30px;
+    font-size: 2rem;
+  }
+}

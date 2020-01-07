@@ -1,0 +1,23 @@
+.dashboard_css {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #19191a;
+  font-size: 1.6rem;
+
+  .dashboard {
+    text-align: center;
+    font-family: Source Sans Pro, sans-serif;
+    padding: 0 2%;
+  }
+
+  .new_task_link {
+    position: absolute;
+    bottom: 48px;
+    right: 48px;
+  }
+
+  .planedTakes_container {
+    // padding: 10px;
+  }
+}

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import SignedInLinks from "./SignedInLinks";
 import SignedOutLinks from "./SignedOutLinks";
 import { connect } from "react-redux";
+import Grid from "@material-ui/core/Grid";
+import "./nav.scss";
 
 const Navbar = props => {
   const { auth, profile, listeners } = props;
@@ -14,14 +16,16 @@ const Navbar = props => {
     <SignedOutLinks />
   );
   return (
-    <nav className="nav-wrapper grey darken-3">
-      <div className="container">
-        <Link to="/" className="brand-logo">
-          To-Do List
-        </Link>
+    <Grid containerd>
+      <nav className="nav">
+        <Grid item xs={12}>
+          <h1 className="logo">
+            <Link to="/">Family Board</Link>
+          </h1>
+        </Grid>
         {links}
-      </div>
-    </nav>
+      </nav>
+    </Grid>
   );
 };
 
