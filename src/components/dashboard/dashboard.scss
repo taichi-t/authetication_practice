@@ -4,6 +4,13 @@
   height: 100vh;
   background-color: #19191a;
   font-size: 1.6rem;
+  h2 {
+    color: #acacac;
+    text-align: left;
+    font-size: 2.4rem;
+    font-weight: bold;
+    padding-bottom: 32px;
+  }
 
   .dashboard {
     text-align: center;
@@ -18,6 +25,9 @@
   }
 
   .planedTakes_container {
-    // padding: 10px;
+    background-color: #2b2c32;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: scroll;
   }
 }

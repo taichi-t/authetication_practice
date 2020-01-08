@@ -23,6 +23,7 @@ class Dashboard extends Component {
         <Grid container spacing={3} className="dashboard">
           <Grid item xs={4}>
             <div className="planedTakes_container">
+              <h2>Planed Taskes</h2>
               <ProjectList projects={projects} />
             </div>
           </Grid>

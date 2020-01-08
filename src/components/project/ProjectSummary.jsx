@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { deleteProject } from "../../store/actions/projectActions";
 import { connect } from "react-redux";
 import moment from "moment";
+import DeleteIcon from "@material-ui/icons/Delete";
+import "./projectSummary.scss";
 
 class ProjectSummary extends Component {
   handleRemove = e => {
@@ -10,18 +12,25 @@ class ProjectSummary extends Component {
   };
   render() {
     const { project } = this.props;
+    console.log(project);
 
     return (
-      <div className="card z-depth-0 project-summary">
-        <div className="card-content grey-text text-darken-3">
-          <i className="material-icons right" onClick={this.handleRemove}>
-            clear
-          </i>
-          <span className="card-title">{project.title}</span>
-          <p>
+      <div className="project_summary_css">
+        <div className="project_summary">
+          <div className="summary_header">
+            <h3 className="summary_title">{project.title}</h3>
+
+            <DeleteIcon onClick={this.handleRemove} className="detele_icon" />
+          </div>
+
+          <div className="content">
+            <p>{project.content}</p>
+          </div>
+
+          <p className="author">
             Posted by {project.authorFirstName} {project.authorLastName}
           </p>
-          <p className="grey-text">
+          <p className="post_time">
             {moment(project.createdAt.toDate().toString()).calendar()}
           </p>
         </div>

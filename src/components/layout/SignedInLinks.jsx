@@ -10,11 +10,9 @@ const SignedInLinks = props => {
   return (
     <div className="signedInLinks_css">
       <ul className="signedInLinks">
-        <li className="logout_link">
-          <Link to="/" onClick={props.signOut}>
-            Log Out
-          </Link>
-        </li>
+        <Link to="/" onClick={props.signOut}>
+          <li className="logout_link">Log Out</li>
+        </Link>
         <li className="signedInLinks_items">
           <NotificationsIcon fontSize="large" />
           <Avatar sizes="50">
