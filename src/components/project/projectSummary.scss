@@ -38,10 +38,13 @@
     color: #ffffff;
     text-align: left;
     width: 100%;
-    height: auto;
+    max-height: 100px;
+    overflow: scroll;
+    word-wrap: break-word;
   }
 
   .author {
+    padding-top: 16px;
     text-align: left;
     color: #acacac;
   }

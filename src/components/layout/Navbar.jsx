@@ -7,11 +7,15 @@ import Grid from "@material-ui/core/Grid";
 import "./nav.scss";
 
 const Navbar = props => {
-  const { auth, profile, listeners } = props;
+  const { auth, profile, listeners, notifications } = props;
   console.log(listeners);
 
   const links = auth.uid ? (
-    <SignedInLinks profile={profile} listeners={listeners} />
+    <SignedInLinks
+      profile={profile}
+      listeners={listeners}
+      notifications={notifications}
+    />
   ) : (
     <SignedOutLinks />
   );
@@ -34,7 +38,8 @@ const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
-    listeners: state.firestore.listeners
+    listeners: state.firestore.listeners,
+    notifications: state.firestore.ordered.notifications
   };
 };
 

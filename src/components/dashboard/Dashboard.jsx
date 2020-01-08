@@ -19,7 +19,7 @@ class Dashboard extends Component {
     if (!auth.uid) return <Redirect to="signin" />;
     return (
       <div className="dashboard_css">
-        <Navbar />
+        <Navbar notifications={notifications} />
         <Grid container spacing={3} className="dashboard">
           <Grid item xs={4}>
             <div className="planedTakes_container">
@@ -34,7 +34,7 @@ class Dashboard extends Component {
             <ProjectList projects={projects} />
           </Grid>
           {/* <Grid item xs={12}>
-          <Notifications notifications={notifications} />
+          <Notifications  />
         </Grid> */}
 
           <div className="new_task_link">
