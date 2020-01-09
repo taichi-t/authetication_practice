@@ -33,9 +33,6 @@ class Dashboard extends Component {
           <Grid item xs={4}>
             <ProjectList projects={projects} />
           </Grid>
-          {/* <Grid item xs={12}>
-          <Notifications  />
-        </Grid> */}
 
           <div className="new_task_link">
             <NavLink to="/create">

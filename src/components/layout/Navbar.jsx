@@ -20,16 +20,14 @@ const Navbar = props => {
     <SignedOutLinks />
   );
   return (
-    <Grid containerd>
-      <nav className="nav">
-        <Grid item xs={12}>
-          <h1 className="logo">
-            <Link to="/">Family Board</Link>
-          </h1>
-        </Grid>
-        {links}
-      </nav>
-    </Grid>
+    <nav className="nav">
+      <Grid item xs={12}>
+        <h1 className="logo">
+          <Link to="/">Family Board</Link>
+        </h1>
+      </Grid>
+      {links}
+    </nav>
   );
 };
 

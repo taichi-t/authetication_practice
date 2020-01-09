@@ -13,7 +13,7 @@ a {
   text-decoration: none;
 }
 
-form {
+/* form {
   padding: 20px;
   margin-top: 60px;
 }
@@ -36,4 +36,4 @@ textarea.materialize-textarea:focus:not([readonly]) + label,
 input[type="email"]:not(.browser-default):focus:not([readonly]) + label,
 input[type="password"]:not(.browser-default):focus:not([readonly]) + label {
   color: #ec407a !important;
-}
+} */
