@@ -21,12 +21,14 @@ const Navbar = props => {
   );
   return (
     <nav className="nav">
-      <Grid item xs={12}>
-        <h1 className="logo">
-          <Link to="/">Family Board</Link>
-        </h1>
-      </Grid>
-      {links}
+      <div className="nav_mask">
+        <Grid item xs={12}>
+          <h1 className="logo">
+            <Link to="/">Family Board</Link>
+          </h1>
+        </Grid>
+        {links}
+      </div>
     </nav>
   );
 };

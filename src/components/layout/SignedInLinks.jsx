@@ -24,7 +24,7 @@ const SignedInLinks = props => {
                 fontSize="large"
                 onClick={() => {
                   const target = document.querySelector(".notification_list");
-                  console.log(target);
+
                   if (
                     target.classList.contains("notification_list_is_active") ===
                     true
@@ -48,12 +48,13 @@ const SignedInLinks = props => {
                   notifications.map(item => {
                     return (
                       <li key={item.id} className="notifications">
-                        <span className="notifications_name">{item.user} </span>
-                        <br />
                         <span className="notifications_content">
                           {item.content}
                         </span>
                         <br />
+                        <span className="notifications_name">{item.user}</span>
+                        <br />
+
                         <div className="notifications_time">
                           {moment(item.time.toDate()).fromNow()}
                         </div>

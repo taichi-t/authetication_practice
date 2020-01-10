@@ -2,6 +2,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createProject } from "../../store/actions/projectActions";
 import { Redirect } from "react-router-dom";
+import "./createProject.scss";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: 500
+    }
+  }
+}));
 
 class CreateProject extends Component {
   state = {
@@ -15,32 +28,64 @@ class CreateProject extends Component {
     });
   };
 
-  handleSubmit = e => {
+  handleClose = e => {
     e.preventDefault();
+    const target = document.querySelector(".create_container");
+    const bgc = document.querySelector(".dashboard_mask");
+    target.classList.remove("create_container_isActive");
+    bgc.classList.remove("dashboard_mask_isActive");
+  };
+
+  handleSubmit = e => {
+    const target = document.querySelector(".create_container");
+    const bgc = document.querySelector(".dashboard_mask");
+    const titleInput = document.getElementById("title");
+    const contentInput = document.getElementById("content");
+    e.preventDefault();
+
     this.props.createProject(this.state);
-    this.props.history.push("/");
+    if (target.classList.contains("create_container_isActive")) {
+      target.classList.remove("create_container_isActive");
+      bgc.classList.remove("dashboard_mask_isActive");
+      titleInput.value = "";
+      contentInput.value = "";
+    } else {
+      return;
+    }
   };
   render() {
     const { auth } = this.props;
+    const classes = useStyles;
     if (!auth.uid) return <Redirect to="/signin" />;
     return (
-      <div className="container">
-        <form onSubmit={this.handleSubmit} className="white">
-          <h5 className="grey-text text-darken-3">Create new project</h5>
-          <div className="input-field">
-            <label htmlFor="title">Title</label>
-            <input type="text" id="title" onChange={this.handleChange} />
-          </div>
-          <div className="input-field">
-            <label htmlFor="content">Project Content</label>
-            <textarea
-              id="content"
-              className="materialize-textarea"
-              onChange={this.handleChange}
-            ></textarea>
-          </div>
-          <div className="input-field">
-            <button className="btn pink lighten-1 z-depth-0">Create</button>
+      <div className="createProject_css">
+        <div className="close_button_container">
+          <HighlightOffIcon fontSize="large" onClick={this.handleClose} />
+        </div>
+
+        <form
+          className={classes.root}
+          noValidate
+          autoComplete="off"
+          onSubmit={this.handleSubmit}
+        >
+          <TextField
+            fullWidth={false}
+            id="title"
+            type="text"
+            label="title"
+            onChange={this.handleChange}
+          />
+          <TextField
+            fullWidth={true}
+            id="content"
+            label="content"
+            type="text"
+            onChange={this.handleChange}
+          />
+
+          <div className="button_container">
+            <button>Create</button>
           </div>
         </form>
       </div>
