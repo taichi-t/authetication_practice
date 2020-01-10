@@ -54,4 +54,15 @@
     padding: 16px 24px 16px 24px;
     border-bottom: solid 1px #acacac;
   }
+
+  .error_text {
+    display: none;
+    font-size: 1.6rem;
+    color: #e02452;
+    text-align: center;
+  }
+
+  .error_text_isActive {
+    display: initial;
+  }
 }

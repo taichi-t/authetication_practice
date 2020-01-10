@@ -31,9 +31,12 @@ class CreateProject extends Component {
   handleClose = e => {
     e.preventDefault();
     const target = document.querySelector(".create_container");
-    const bgc = document.querySelector(".dashboard_mask");
-    target.classList.remove("create_container_isActive");
-    bgc.classList.remove("dashboard_mask_isActive");
+    const bgcMask = document.querySelector(".dashboard_mask");
+
+    if (target.classList.contains("create_container_isActive")) {
+      target.classList.remove("create_container_isActive");
+      bgcMask.classList.remove("dashboard_mask_isActive");
+    }
   };
 
   handleSubmit = e => {
@@ -41,9 +44,20 @@ class CreateProject extends Component {
     const bgc = document.querySelector(".dashboard_mask");
     const titleInput = document.getElementById("title");
     const contentInput = document.getElementById("content");
+    const errorMessage = document.querySelector(".error_text");
     e.preventDefault();
 
-    this.props.createProject(this.state);
+    if (titleInput.value === "") {
+      errorMessage.classList.add("error_text_isActive");
+      return;
+    } else {
+      this.props.createProject(this.state);
+    }
+
+    if (errorMessage.classList.contains("error_text_isActive")) {
+      errorMessage.classList.remove("error_text_isActive");
+    }
+
     if (target.classList.contains("create_container_isActive")) {
       target.classList.remove("create_container_isActive");
       bgc.classList.remove("dashboard_mask_isActive");
@@ -58,7 +72,7 @@ class CreateProject extends Component {
     const classes = useStyles;
     if (!auth.uid) return <Redirect to="/signin" />;
     return (
-      <div className="createProject_css">
+      <div className="createProject_css" id="createProject">
         <div className="close_button_container">
           <HighlightOffIcon fontSize="large" onClick={this.handleClose} />
         </div>
@@ -74,6 +88,7 @@ class CreateProject extends Component {
             id="title"
             type="text"
             label="title"
+            required={true}
             onChange={this.handleChange}
           />
           <TextField
@@ -86,6 +101,9 @@ class CreateProject extends Component {
 
           <div className="button_container">
             <button>Create</button>
+          </div>
+          <div className="error_text">
+            <p>Please enter the title</p>
           </div>
         </form>
       </div>
