@@ -8,7 +8,7 @@ import { Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import "./dashboard.scss";
 import Navbar from "../layout/Navbar";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import CreateProject from "../project/CreateProject";
