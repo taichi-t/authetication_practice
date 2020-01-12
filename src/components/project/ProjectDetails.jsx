@@ -19,7 +19,7 @@ function ProjectDetails(props) {
           </div>
           <div className="card-action grey lighten-4 grey-text">
             <div>
-              Posted by {project.authorfirstName} {project.authorlastName}
+              Posted by {project.authorFirstName} {project.authorLastName}
             </div>
             <div>
               {moment(project.createdAt.toDate().toString()).calendar()}

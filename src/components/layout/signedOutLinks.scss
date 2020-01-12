@@ -1,0 +1,32 @@
+.signedOutLinks_css {
+  padding: 0 20.1% 32px 20.1%;
+  background-color: #19191a;
+  color: #ffffff;
+  font-family: Source Sans Pro, sans-serif;
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul > a {
+    margin-right: 16px;
+  }
+  ul > a:last-of-type {
+    margin: 0px;
+  }
+  .signOutLinks {
+    display: flex;
+  }
+
+  .signOutLinks_item {
+    text-align: center;
+    border-radius: 10px;
+    display: block;
+    font-size: 1.6rem;
+    width: 80px;
+    height: 40px;
+    line-height: 4rem;
+    background-color: #2b2c32;
+  }
+}

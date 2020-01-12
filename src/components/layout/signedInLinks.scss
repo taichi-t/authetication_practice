@@ -1,0 +1,81 @@
+.signedInLinks_css {
+  padding: 0 20.1% 32px 20.1%;
+  font-family: Source Sans Pro, sans-serif;
+
+  h3 {
+    font-size: 2.4rem;
+    text-align: center;
+    color: #acacac;
+    padding-bottom: 16px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  .notification_container {
+    position: relative;
+  }
+  .MuiSvgIcon-root {
+    font-size: 30px;
+  }
+
+  .notification_list {
+    display: none;
+    position: absolute;
+    padding: 16px;
+    width: 180px;
+    height: auto;
+    z-index: 99;
+    left: 50%;
+    top: 120%;
+    transform: translateX(-50%);
+    background-color: #19191a;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 1);
+    border-radius: 10px;
+  }
+  .notification_list_is_active {
+    display: initial;
+  }
+
+  .notifications {
+    padding-bottom: 16px;
+  }
+
+  .notifications_time {
+    color: #acacac;
+    font-size: 12px;
+  }
+
+  .notifications_name {
+    font-size: 1.2rem;
+    color: #acacac;
+  }
+
+  .signedInLinks {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .logout_link {
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #2b2c32;
+    line-height: 4rem;
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .signedInLinks_items {
+    display: flex;
+    align-items: center;
+  }
+  .MuiAvatar-root {
+    margin-left: 30px;
+    font-size: 2rem;
+  }
+}
