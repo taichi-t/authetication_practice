@@ -8,7 +8,6 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import moment from "moment";
 
 const SignedInLinks = props => {
-  console.log(props);
   const { notifications } = props;
 
   return (

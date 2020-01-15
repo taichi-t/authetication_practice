@@ -16,6 +16,7 @@ import CreateProject from "../project/CreateProject";
 class Dashboard extends Component {
   render() {
     const { projects, auth, notifications } = this.props;
+    console.log(projects);
 
     if (!auth.uid) return <Redirect to="signin" />;
     return (
@@ -70,7 +71,6 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     projects: state.firestore.ordered.projects,
     auth: state.firebase.auth,

@@ -12,7 +12,6 @@ class ProjectSummary extends Component {
   };
   render() {
     const { project } = this.props;
-    console.log(project);
 
     return (
       <div className="project_summary_css">

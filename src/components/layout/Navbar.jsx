@@ -8,7 +8,6 @@ import "./nav.scss";
 
 const Navbar = props => {
   const { auth, profile, listeners, notifications } = props;
-  console.log(listeners);
 
   const links = auth.uid ? (
     <SignedInLinks
@@ -34,7 +33,6 @@ const Navbar = props => {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
