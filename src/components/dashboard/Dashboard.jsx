@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import Notifications from "./Notifications";
-import ProjectList from "../project/ProjectList";
+// import ProjectList from "../project/ProjectList";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
@@ -8,7 +8,6 @@ import { Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import "./dashboard.scss";
 import Navbar from "../layout/Navbar";
-// import { NavLink } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import CreateProject from "../project/CreateProject";
@@ -26,8 +25,6 @@ class Dashboard extends Component {
         newProjects[data.id] = data;
       }
     }
-    console.log(projectIds);
-    console.log(newProjects);
 
     const initialData = {
       columns: {
