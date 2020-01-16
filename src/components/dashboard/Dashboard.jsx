@@ -12,11 +12,43 @@ import Navbar from "../layout/Navbar";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import CreateProject from "../project/CreateProject";
+import Column from "../project/Column";
 
 class Dashboard extends Component {
   render() {
     const { projects, auth, notifications } = this.props;
-    console.log(projects);
+    const projectIds = projects && projects.map((project, index) => project.id);
+
+    const newProjects = {};
+    if (projects) {
+      for (let i = 0, l = projects.length; i < l; i += 1) {
+        const data = projects[i];
+        newProjects[data.id] = data;
+      }
+    }
+    console.log(projectIds);
+    console.log(newProjects);
+
+    const initialData = {
+      columns: {
+        "column-1": {
+          id: "column-1",
+          title: "To do",
+          taskIds: projectIds
+        },
+        "column-2": {
+          id: "column-2",
+          title: "In progress",
+          taskIds: []
+        },
+        "column-3": {
+          id: "column-3",
+          title: "Done",
+          taskIds: []
+        }
+      },
+      columnOrder: ["column-1", "column-2", "column-3"]
+    };
 
     if (!auth.uid) return <Redirect to="signin" />;
     return (
@@ -27,18 +59,28 @@ class Dashboard extends Component {
         <div className="dashboard_mask">
           <Navbar notifications={notifications} />
           <Grid container spacing={3} className="dashboard">
-            <Grid item xs={4}>
-              <div className="planedTakes_container">
-                <h2>Planed Taskes</h2>
-                <ProjectList projects={projects} />
-              </div>
-            </Grid>
-            <Grid item xs={4}>
-              {/* <ProjectInProgress /> */}
-            </Grid>
-            <Grid item xs={4}>
-              {/* <ProjectInCompleted /> */}
-            </Grid>
+            {newProjects &&
+              projectIds &&
+              initialData.columnOrder.map((columnId, index) => {
+                const column = initialData.columns[columnId];
+
+                const tasks = column.taskIds.map(
+                  taskId => newProjects[taskId.toString()]
+                );
+
+                return (
+                  <Grid item xs={4} key={index}>
+                    <div className="planedTakes_container">
+                      <Column
+                        key={column.id}
+                        column={column}
+                        tasks={tasks}
+                        index={index}
+                      />
+                    </div>
+                  </Grid>
+                );
+              })}
 
             <div className="new_task_link">
               {/* <NavLink to="/create"> */}
