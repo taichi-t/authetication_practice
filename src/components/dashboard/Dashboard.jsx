@@ -55,6 +55,7 @@ class Dashboard extends Component {
         </div>
         <div className="dashboard_mask">
           <Navbar notifications={notifications} />
+
           <Grid container spacing={3} className="dashboard">
             {newProjects &&
               projectIds &&
