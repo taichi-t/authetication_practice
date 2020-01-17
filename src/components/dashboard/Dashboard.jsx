@@ -12,10 +12,13 @@ import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import CreateProject from "../project/CreateProject";
 import Column from "../project/Column";
+import { DragDropContext } from "react-beautiful-dnd";
 
 class Dashboard extends Component {
   render() {
-    const { projects, auth, notifications } = this.props;
+    console.log(this.props);
+    const { projects, auth, notifications, columns } = this.props;
+
     const projectIds = projects && projects.map((project, index) => project.id);
 
     const newProjects = {};
@@ -57,28 +60,33 @@ class Dashboard extends Component {
           <Navbar notifications={notifications} />
 
           <Grid container spacing={3} className="dashboard">
-            {newProjects &&
-              projectIds &&
-              initialData.columnOrder.map((columnId, index) => {
-                const column = initialData.columns[columnId];
+            <DragDropContext
+              onDragEnd={this.onDragEnd}
+              onDragStart={this.onDragStart}
+            >
+              {newProjects &&
+                projectIds &&
+                columns.columnOrder.map((columnId, index) => {
+                  const column = columns[columnId];
 
-                const tasks = column.taskIds.map(
-                  taskId => newProjects[taskId.toString()]
-                );
+                  const tasks = column.taskIds.map(
+                    taskId => newProjects[taskId]
+                  );
 
-                return (
-                  <Grid item xs={4} key={index}>
-                    <div className="planedTakes_container">
-                      <Column
-                        key={column.id}
-                        column={column}
-                        tasks={tasks}
-                        index={index}
-                      />
-                    </div>
-                  </Grid>
-                );
-              })}
+                  return (
+                    <Grid item xs={4} key={index}>
+                      <div className="planedTakes_container">
+                        <Column
+                          key={column.id}
+                          column={column}
+                          tasks={tasks}
+                          index={index}
+                        />
+                      </div>
+                    </Grid>
+                  );
+                })}
+            </DragDropContext>
 
             <div className="new_task_link">
               {/* <NavLink to="/create"> */}
@@ -114,7 +122,8 @@ const mapStateToProps = state => {
   return {
     projects: state.firestore.ordered.projects,
     auth: state.firebase.auth,
-    notifications: state.firestore.ordered.notifications
+    notifications: state.firestore.ordered.notifications,
+    columns: state.columns
   };
 };
 
