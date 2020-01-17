@@ -23,7 +23,7 @@ const Navbar = props => {
       <div className="nav_mask">
         <Grid item xs={12}>
           <h1 className="logo">
-            <Link to="/">Family Board</Link>
+            <Link to="/">Family Organizer</Link>
           </h1>
         </Grid>
         {links}
