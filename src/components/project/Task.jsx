@@ -9,10 +9,11 @@ import { Draggable } from "react-beautiful-dnd";
 class Task extends Component {
   handleRemove = e => {
     e.preventDefault();
-    this.props.deleteProject(this.props.task.id);
+    this.props.deleteProject(this.props.task);
   };
   render() {
     const { task } = this.props;
+
     return (
       <Draggable draggableId={this.props.task.id} index={this.props.index}>
         {(provided, snapshot) => (
@@ -59,7 +60,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteProject: id => dispatch(deleteProject(id))
+    deleteProject: task => dispatch(deleteProject(task))
   };
 };
 

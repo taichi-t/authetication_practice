@@ -1,20 +1,32 @@
 export const createProject = project => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
+    const firebase = getFirebase();
 
     const profile = getState().firebase.profile;
     const authorId = getState().firebase.auth.uid;
 
-    firestore
+    const key = firestore.collection("projects").doc().id;
 
+    firestore
       .collection("projects")
-      .add({
+      .doc(key)
+      .set({
         ...project,
         authorFirstName: profile.firstName,
         authorLastName: profile.lastName,
         authorId: authorId,
         createdAt: new Date()
       })
+      .then(() => {
+        firestore
+          .collection("columns")
+          .doc("column-1")
+          .update({
+            taskIds: firebase.firestore.FieldValue.arrayUnion(key)
+          });
+      })
+
       .then(() => {
         dispatch({ type: "CREATE_PROJECT_SUCCESS", project });
       })
@@ -24,14 +36,25 @@ export const createProject = project => {
   };
 };
 
-export const deleteProject = id => {
+export const deleteProject = task => {
+  console.log(task);
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
+    const firebase = getFirebase();
 
     firestore
-      .collection("projects")
-      .doc(id)
-      .delete()
+      .collection("columns")
+      .doc("column-1")
+      .update({
+        taskIds: firebase.firestore.FieldValue.arrayRemove(task.id)
+      })
+
+      .then(() => {
+        firestore
+          .collection("projects")
+          .doc(task.id)
+          .delete();
+      })
       .then(() => {
         dispatch({ type: "DELETE_PROJECT_SUCCESS" });
       })

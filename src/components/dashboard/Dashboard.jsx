@@ -16,11 +16,24 @@ import { DragDropContext } from "react-beautiful-dnd";
 
 class Dashboard extends Component {
   render() {
-    console.log(this.props);
-    const { projects, auth, notifications, columns } = this.props;
+    const { projects, auth, notifications, columns, columnOrder } = this.props;
 
-    const projectIds = projects && projects.map((project, index) => project.id);
+    const newColumnOrder = columnOrder && columnOrder[0].columnOrder;
+    console.log(newColumnOrder);
 
+    // those projectIds devided into its individual.
+    // const projectIds = projects && projects.map((project, index) => project.id);
+
+    //Those columns converted to array
+    const newColumns = {};
+    if (columns) {
+      for (let i = 0, l = columns.length; i < l; i += 1) {
+        const data = columns[i];
+        newColumns[data.id] = data;
+      }
+    }
+
+    //Those projects converted to onject array
     const newProjects = {};
     if (projects) {
       for (let i = 0, l = projects.length; i < l; i += 1) {
@@ -29,26 +42,26 @@ class Dashboard extends Component {
       }
     }
 
-    const initialData = {
-      columns: {
-        "column-1": {
-          id: "column-1",
-          title: "To do",
-          taskIds: projectIds
-        },
-        "column-2": {
-          id: "column-2",
-          title: "In progress",
-          taskIds: []
-        },
-        "column-3": {
-          id: "column-3",
-          title: "Done",
-          taskIds: []
-        }
-      },
-      columnOrder: ["column-1", "column-2", "column-3"]
-    };
+    // const initialData = {
+    //   columns: {
+    //     "column-1": {
+    //       id: "column-1",
+    //       title: "To do",
+    //       taskIds: projectIds
+    //     },
+    //     "column-2": {
+    //       id: "column-2",
+    //       title: "In progress",
+    //       taskIds: []
+    //     },
+    //     "column-3": {
+    //       id: "column-3",
+    //       title: "Done",
+    //       taskIds: []
+    //     }
+    //   },
+    //   columnOrder: ["column-1", "column-2", "column-3"]
+    // };
 
     if (!auth.uid) return <Redirect to="signin" />;
     return (
@@ -65,13 +78,21 @@ class Dashboard extends Component {
               onDragStart={this.onDragStart}
             >
               {newProjects &&
-                projectIds &&
-                columns.columnOrder.map((columnId, index) => {
-                  const column = columns[columnId];
+                newColumns &&
+                newColumnOrder &&
+                newColumnOrder.map((columnId, index) => {
+                  const column = newColumns[columnId];
 
-                  const tasks = column.taskIds.map(
-                    taskId => newProjects[taskId]
-                  );
+                  const tasks =
+                    column.taskIds &&
+                    column.taskIds.map(taskId => {
+                      if (taskId) {
+                        return newProjects[taskId];
+                      } else {
+                        return newProjects;
+                      }
+                    });
+                  console.log(tasks);
 
                   return (
                     <Grid item xs={4} key={index}>
@@ -123,7 +144,8 @@ const mapStateToProps = state => {
     projects: state.firestore.ordered.projects,
     auth: state.firebase.auth,
     notifications: state.firestore.ordered.notifications,
-    columns: state.columns
+    columns: state.firestore.ordered.columns,
+    columnOrder: state.firestore.ordered.columnOrderes
   };
 };
 
@@ -131,6 +153,8 @@ export default compose(
   connect(mapStateToProps),
   firestoreConnect([
     { collection: "projects", orderBy: ["createdAt", "desc"] },
-    { collection: "notifications", limit: 3, orderBy: ["time", "desc"] }
+    { collection: "notifications", limit: 3, orderBy: ["time", "desc"] },
+    { collection: "columns" },
+    { collection: "columnOrderes" }
   ])
 )(Dashboard);
