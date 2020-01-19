@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
+import { UpdateIndex } from "../../store/actions/projectActions";
 import Grid from "@material-ui/core/Grid";
 import "./dashboard.scss";
 import Navbar from "../layout/Navbar";
@@ -15,14 +16,109 @@ import Column from "../project/Column";
 import { DragDropContext } from "react-beautiful-dnd";
 
 class Dashboard extends Component {
+  handleChangeIndex = newState => {
+    this.props.UpdateIndex(newState);
+  };
+  onDragStart = start => {
+    const columnOrderes = this.props.columnOrder[0]["columnOrder"].map(
+      item => item
+    );
+
+    const homeIndex = columnOrderes.indexOf(start.source.droppableId);
+
+    this.setState({
+      homeIndex
+    });
+  };
+  onDragEnd = result => {
+    // document.body.style.color = "inherit";
+    // document.body.style.color = "inherit";
+
+    const newColumns = {};
+    if (this.props.columns) {
+      for (let i = 0, l = this.props.columns.length; i < l; i += 1) {
+        const data = this.props.columns[i];
+        newColumns[data.id] = data;
+      }
+    }
+
+    this.setState({
+      homeIndex: null
+    });
+
+    const { destination, source, draggableId } = result;
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const start = newColumns[source.droppableId];
+    const finish = newColumns[destination.droppableId];
+
+    if (start === finish) {
+      const newTaskIds = Array.from(start.taskIds);
+
+      newTaskIds.splice(source.index, 1);
+
+      newTaskIds.splice(destination.index, 0, draggableId);
+
+      const newColumn = {
+        ...start,
+        taskIds: newTaskIds
+      };
+
+      const newState = {
+        ...this.state,
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn
+        }
+      };
+
+      this.handleChangeIndex(newState);
+      return;
+    }
+
+    // moving from one list to another
+    const startTaskIds = Array.from(start.taskIds);
+    console.log(startTaskIds);
+    startTaskIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      taskIds: startTaskIds
+    };
+
+    console.log(newStart);
+
+    const finishTaskIds = Array.from(finish.taskIds);
+    console.log(finishTaskIds);
+    finishTaskIds.splice(destination.index, 0, draggableId);
+    const newFinish = {
+      ...finish,
+      taskIds: finishTaskIds
+    };
+    console.log(newFinish);
+
+    const newState = {
+      ...this.state,
+      columns: {
+        ...this.state.columns,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish
+      }
+    };
+    console.log(newState);
+    this.setState(newState);
+  };
   render() {
     const { projects, auth, notifications, columns, columnOrder } = this.props;
-
     const newColumnOrder = columnOrder && columnOrder[0].columnOrder;
-    console.log(newColumnOrder);
-
-    // those projectIds devided into its individual.
-    // const projectIds = projects && projects.map((project, index) => project.id);
 
     //Those columns converted to array
     const newColumns = {};
@@ -41,27 +137,6 @@ class Dashboard extends Component {
         newProjects[data.id] = data;
       }
     }
-
-    // const initialData = {
-    //   columns: {
-    //     "column-1": {
-    //       id: "column-1",
-    //       title: "To do",
-    //       taskIds: projectIds
-    //     },
-    //     "column-2": {
-    //       id: "column-2",
-    //       title: "In progress",
-    //       taskIds: []
-    //     },
-    //     "column-3": {
-    //       id: "column-3",
-    //       title: "Done",
-    //       taskIds: []
-    //     }
-    //   },
-    //   columnOrder: ["column-1", "column-2", "column-3"]
-    // };
 
     if (!auth.uid) return <Redirect to="signin" />;
     return (
@@ -92,7 +167,6 @@ class Dashboard extends Component {
                         return newProjects;
                       }
                     });
-                  console.log(tasks);
 
                   return (
                     <Grid item xs={4} key={index}>
@@ -149,8 +223,14 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    UpdateIndex: newState => dispatch(UpdateIndex(newState))
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([
     { collection: "projects", orderBy: ["createdAt", "desc"] },
     { collection: "notifications", limit: 3, orderBy: ["time", "desc"] },

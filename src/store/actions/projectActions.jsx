@@ -63,3 +63,23 @@ export const deleteProject = task => {
       });
   };
 };
+
+export const UpdateIndex = newState => {
+  console.log(newState);
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+
+    firestore
+      .collection("columns")
+      .doc("column-1")
+      .update({
+        taskIds: newState.columns["column-1"].taskIds
+      })
+      .then(() => {
+        dispatch({ type: "UPDATE_INDEX_SUCCESS" });
+      })
+      .catch(err => {
+        dispatch({ type: "UPDATE_INDEX_ERROR", err });
+      });
+  };
+};

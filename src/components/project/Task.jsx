@@ -19,10 +19,10 @@ class Task extends Component {
         {(provided, snapshot) => (
           <div
             className="project_summary_css"
-            ref={provided.innerRef}
             {...provided.draggableProps}
-            // isDragging={snapshot.isDragging}
             {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            // isDragging={snapshot.isDragging}
           >
             <div className="project_summary">
               <div className="summary_header">

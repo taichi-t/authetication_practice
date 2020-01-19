@@ -17,6 +17,14 @@ const projectReducer = (state = initState, action) => {
       console.log("Removed Project Error", action.err);
       return state;
 
+    case "UPDATE_INDEX_SUCCESS":
+      console.log("Update Index");
+      return state;
+
+    case "UPDATE_NEWSTATE_ERROR":
+      console.log("Update Index Error");
+      return state;
+
     default:
       return state;
   }
