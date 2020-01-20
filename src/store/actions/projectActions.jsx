@@ -38,14 +38,12 @@ export const createProject = project => {
 };
 
 export const deleteProject = task => {
-  console.log(task);
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
     const firebase = getFirebase();
     const columnId = task.task.currentColumn;
     const taskId = task.task.id;
 
-    console.log(columnId);
     firestore
       .collection("columns")
       .doc(columnId)
@@ -100,10 +98,8 @@ export const UpdateIndex = newState => {
 };
 
 export const UpdateColumn = (newState, newFinish, drraggableId) => {
-  console.log(newState, newFinish, drraggableId);
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
-    console.log(newFinish);
 
     const columns = newState.columns;
 
@@ -114,6 +110,7 @@ export const UpdateColumn = (newState, newFinish, drraggableId) => {
         .update({
           taskIds: columnData.taskIds
         })
+
         .then(() => {
           firestore
             .collection("projects")

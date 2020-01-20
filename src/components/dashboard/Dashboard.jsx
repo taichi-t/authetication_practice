@@ -117,8 +117,6 @@ class Dashboard extends Component {
         [newFinish.id]: newFinish
       }
     };
-    console.log(newFinish);
-    console.log(draggableId);
 
     this.handleChangeColumn(newState, newFinish, draggableId);
   };

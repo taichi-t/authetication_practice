@@ -11,10 +11,9 @@ export default class Column extends Component {
         <h2>{this.props.column.title}</h2>
         <Droppable
           droppableId={this.props.column.id}
-          // type={this.props.column.id === "column-3" ? "done" : "active"}
           isDropDisabled={this.props.isDropDisabled}
         >
-          {provided => (
+          {(provided, snapshot) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               {this.props.tasks &&
                 this.props.tasks.map((task, index) => (
