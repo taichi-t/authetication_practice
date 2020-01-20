@@ -9,7 +9,7 @@ import { Draggable } from "react-beautiful-dnd";
 class Task extends Component {
   handleRemove = e => {
     e.preventDefault();
-    this.props.deleteProject(this.props.task);
+    this.props.deleteProject(this.props);
   };
   render() {
     const { task } = this.props;

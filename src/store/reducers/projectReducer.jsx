@@ -21,8 +21,16 @@ const projectReducer = (state = initState, action) => {
       console.log("Update Index");
       return state;
 
-    case "UPDATE_NEWSTATE_ERROR":
+    case "UPDATE_INDEX_ERROR":
       console.log("Update Index Error");
+      return state;
+
+    case "UPDATE_COLUMN_SUCCESS":
+      console.log("Update Column");
+      return state;
+
+    case "UPDATE_COLUMN_ERROR":
+      console.log("Update Column Error");
       return state;
 
     default:

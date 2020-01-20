@@ -6,6 +6,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { UpdateIndex } from "../../store/actions/projectActions";
+import { UpdateColumn } from "../../store/actions/projectActions";
 import Grid from "@material-ui/core/Grid";
 import "./dashboard.scss";
 import Navbar from "../layout/Navbar";
@@ -19,6 +20,11 @@ class Dashboard extends Component {
   handleChangeIndex = newState => {
     this.props.UpdateIndex(newState);
   };
+
+  handleChangeColumn = (newState, newFinish, draggableId) => {
+    this.props.UpdateColumn(newState, newFinish, draggableId);
+  };
+
   onDragStart = start => {
     const columnOrderes = this.props.columnOrder[0]["columnOrder"].map(
       item => item
@@ -87,23 +93,21 @@ class Dashboard extends Component {
 
     // moving from one list to another
     const startTaskIds = Array.from(start.taskIds);
-    console.log(startTaskIds);
+
     startTaskIds.splice(source.index, 1);
     const newStart = {
       ...start,
       taskIds: startTaskIds
     };
 
-    console.log(newStart);
-
     const finishTaskIds = Array.from(finish.taskIds);
-    console.log(finishTaskIds);
+
     finishTaskIds.splice(destination.index, 0, draggableId);
+
     const newFinish = {
       ...finish,
       taskIds: finishTaskIds
     };
-    console.log(newFinish);
 
     const newState = {
       ...this.state,
@@ -113,8 +117,10 @@ class Dashboard extends Component {
         [newFinish.id]: newFinish
       }
     };
-    console.log(newState);
-    this.setState(newState);
+    console.log(newFinish);
+    console.log(draggableId);
+
+    this.handleChangeColumn(newState, newFinish, draggableId);
   };
   render() {
     const { projects, auth, notifications, columns, columnOrder } = this.props;
@@ -146,67 +152,69 @@ class Dashboard extends Component {
         </div>
         <div className="dashboard_mask">
           <Navbar notifications={notifications} />
-
-          <Grid container spacing={3} className="dashboard">
-            <DragDropContext
-              onDragEnd={this.onDragEnd}
-              onDragStart={this.onDragStart}
-            >
-              {newProjects &&
-                newColumns &&
-                newColumnOrder &&
-                newColumnOrder.map((columnId, index) => {
-                  const column = newColumns[columnId];
-
-                  const tasks =
-                    column.taskIds &&
-                    column.taskIds.map(taskId => {
-                      if (taskId) {
-                        return newProjects[taskId];
-                      } else {
-                        return newProjects;
-                      }
-                    });
-
-                  return (
-                    <Grid item xs={4} key={index}>
-                      <div className="planedTakes_container">
-                        <Column
-                          key={column.id}
-                          column={column}
-                          tasks={tasks}
-                          index={index}
-                        />
-                      </div>
-                    </Grid>
-                  );
-                })}
-            </DragDropContext>
-
-            <div className="new_task_link">
-              {/* <NavLink to="/create"> */}
-              <Fab
-                aria-label="add"
-                size="large"
-                color="primary"
-                onClick={() => {
-                  const target = document.querySelector(".create_container");
-                  const bgc = document.querySelector(".dashboard_mask");
-
-                  if (target.classList.contains("create_container_isActive")) {
-                    target.classList.remove("create_container_isActive");
-                    bgc.classList.remove("dashboard_mask_isActive");
-                  } else {
-                    target.classList.add("create_container_isActive");
-                    bgc.classList.add("dashboard_mask_isActive");
-                  }
-                }}
+          <div className="dashboard">
+            <Grid container spacing={3}>
+              <DragDropContext
+                onDragEnd={this.onDragEnd}
+                onDragStart={this.onDragStart}
               >
-                <AddIcon fontSize="large" />
-              </Fab>
-              {/* </NavLink> */}
-            </div>
-          </Grid>
+                {newProjects &&
+                  newColumns &&
+                  newColumnOrder &&
+                  newColumnOrder.map((columnId, index) => {
+                    const column = newColumns[columnId];
+
+                    const tasks =
+                      column.taskIds &&
+                      column.taskIds.map(taskId => {
+                        if (taskId) {
+                          return newProjects[taskId];
+                        } else {
+                          return newProjects;
+                        }
+                      });
+
+                    return (
+                      <Grid item xs={4} key={index}>
+                        <div className="planedTakes_container">
+                          <Column
+                            key={column.id}
+                            column={column}
+                            tasks={tasks}
+                            index={index}
+                          />
+                        </div>
+                      </Grid>
+                    );
+                  })}
+              </DragDropContext>
+
+              <div className="new_task_link">
+                <Fab
+                  aria-label="add"
+                  size="large"
+                  color="primary"
+                  onClick={() => {
+                    const target = document.querySelector(".create_container");
+                    const bgc = document.querySelector(".dashboard_mask");
+
+                    if (
+                      target.classList.contains("create_container_isActive")
+                    ) {
+                      target.classList.remove("create_container_isActive");
+                      bgc.classList.remove("dashboard_mask_isActive");
+                    } else {
+                      target.classList.add("create_container_isActive");
+                      bgc.classList.add("dashboard_mask_isActive");
+                    }
+                  }}
+                >
+                  <AddIcon fontSize="large" />
+                </Fab>
+                {/* </NavLink> */}
+              </div>
+            </Grid>
+          </div>
         </div>
       </div>
     );
@@ -225,7 +233,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    UpdateIndex: newState => dispatch(UpdateIndex(newState))
+    UpdateIndex: newState => dispatch(UpdateIndex(newState)),
+    UpdateColumn: (newState, newFinish, draggableId) =>
+      dispatch(UpdateColumn(newState, newFinish, draggableId))
   };
 };
 
