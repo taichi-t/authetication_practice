@@ -26,6 +26,7 @@ class Dashboard extends Component {
   };
 
   onDragStart = start => {
+    console.log(start);
     const columnOrderes = this.props.columnOrder[0]["columnOrder"].map(
       item => item
     );
