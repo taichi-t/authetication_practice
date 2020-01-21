@@ -1,11 +1,4 @@
-const initState = {
-  projects: [
-    { id: "1", title: "help me find peach", content: "blah blah blah" },
-    { id: "2", title: "collect all the starts", content: "blah blah blah" },
-    { id: "3", title: "egg hunt with yoshi", content: "blah blah blah" }
-  ]
-};
-
+const initState = {};
 const projectReducer = (state = initState, action) => {
   switch (action.type) {
     case "CREATE_PROJECT_SUCCESS":
@@ -22,6 +15,22 @@ const projectReducer = (state = initState, action) => {
 
     case "DELETE_PROJECT_ERROR":
       console.log("Removed Project Error", action.err);
+      return state;
+
+    case "UPDATE_INDEX_SUCCESS":
+      console.log("Update Index");
+      return state;
+
+    case "UPDATE_INDEX_ERROR":
+      console.log("Update Index Error");
+      return state;
+
+    case "UPDATE_COLUMN_SUCCESS":
+      console.log("Update Column");
+      return state;
+
+    case "UPDATE_COLUMN_ERROR":
+      console.log("Update Column Error");
       return state;
 
     default:

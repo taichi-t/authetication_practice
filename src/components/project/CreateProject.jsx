@@ -52,6 +52,9 @@ class CreateProject extends Component {
       return;
     } else {
       this.props.createProject(this.state);
+      titleInput.value = "";
+      contentInput.value = "";
+      this.setState({ title: "", content: "" });
     }
 
     if (errorMessage.classList.contains("error_text_isActive")) {
@@ -63,6 +66,7 @@ class CreateProject extends Component {
       bgc.classList.remove("dashboard_mask_isActive");
       titleInput.value = "";
       contentInput.value = "";
+      this.setState({ title: "", content: "" });
     } else {
       return;
     }
