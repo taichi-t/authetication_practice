@@ -109,15 +109,13 @@ export const UpdateColumn = (newState, newFinish, drraggableId) => {
         .doc(columnName)
         .update({
           taskIds: columnData.taskIds
-        })
+        });
 
-        .then(() => {
-          firestore
-            .collection("projects")
-            .doc(drraggableId)
-            .update({
-              currentColumn: newFinish.id
-            });
+      firestore
+        .collection("projects")
+        .doc(drraggableId)
+        .update({
+          currentColumn: newFinish.id
         })
         .then(() => {
           dispatch({ type: "UPDATE_COLUMN_SUCCESS" });
