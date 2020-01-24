@@ -22,6 +22,7 @@ class Task extends Component {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
+            id={task.id}
             // isDragging={snapshot.isDragging}
           >
             <div className="project_summary">

@@ -105,28 +105,39 @@ export const UpdateColumn = (newState, drraggableId) => {
     const taskId = drraggableId;
     const startColumnName = Object.keys(newState.newStart);
     const finishColumnName = Object.keys(newState.newFinish);
-    console.log(startColumnName[0]);
-
-    firestore
+    const startColumnRef = firestore
       .collection("columns")
-      .doc(startColumnName[0].toString())
-      .update({
-        taskIds: newState.newStart[startColumnName].taskIds
-      });
+      .doc(startColumnName[0].toString());
 
-    firestore
+    const finishColumnRef = firestore
       .collection("columns")
-      .doc(finishColumnName[0].toString())
-      .update({
-        taskIds: newState.newFinish[finishColumnName].taskIds
-      });
+      .doc(finishColumnName[0].toString());
+
+    const projectRef = firestore.collection("projects").doc(taskId);
 
     firestore
-      .collection("projects")
-      .doc(taskId)
-      .update({
-        currentColumn: finishColumnName[0]
+      .runTransaction(async transaction => {
+        const [
+          startColumnDoc,
+          finishColumnDoc,
+          projectDoc
+        ] = await Promise.all([
+          transaction.get(startColumnRef),
+          transaction.get(finishColumnRef),
+          transaction.get(projectRef)
+        ]);
+
+        transaction.update(startColumnRef, {
+          taskIds: newState.newStart[startColumnName].taskIds
+        });
+        transaction.update(finishColumnRef, {
+          taskIds: newState.newFinish[finishColumnName].taskIds
+        });
+        transaction.update(projectRef, {
+          currentColumn: finishColumnName[0]
+        });
       })
+
       .then(() => {
         dispatch({ type: "UPDATE_COLUMN_SUCCESS" });
       })

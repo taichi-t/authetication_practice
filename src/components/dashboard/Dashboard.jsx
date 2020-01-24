@@ -91,6 +91,10 @@ class Dashboard extends Component {
       return;
     }
 
+    const target = document.getElementById(result.draggableId);
+    console.log(target);
+    target.classList.add("display_none");
+
     // moving from one list to another
     const startTaskIds = Array.from(start.taskIds);
 
