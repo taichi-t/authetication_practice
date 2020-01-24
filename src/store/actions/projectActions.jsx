@@ -133,18 +133,5 @@ export const UpdateColumn = (newState, drraggableId) => {
       .catch(err => {
         dispatch({ type: "UPDATE_COLUMN_ERROR", err });
       });
-
-    // for (let key in columns) {
-    //   if (key === "column-1") {
-    //     const columnOne = columns[key];
-    //     UpdateColumn("column-1", columnOne);
-    //   } else if (key === "column-2") {
-    //     const columnSecond = columns[key];
-    //     UpdateColumn("column-2", columnSecond);
-    //   } else if (key === "column-3") {
-    //     const columnThird = columns[key];
-    //     UpdateColumn("column-3", columnThird);
-    //   }
-    // }
   };
 };
