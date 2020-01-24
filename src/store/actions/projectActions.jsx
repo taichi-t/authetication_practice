@@ -97,45 +97,54 @@ export const UpdateIndex = newState => {
   };
 };
 
-export const UpdateColumn = (newState, newFinish, drraggableId) => {
+export const UpdateColumn = (newState, drraggableId) => {
+  console.log(newState, drraggableId);
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
 
-    const columns = newState.columns;
+    const taskId = drraggableId;
+    const startColumnName = Object.keys(newState.newStart);
+    const finishColumnName = Object.keys(newState.newFinish);
+    console.log(startColumnName[0]);
 
-    const UpdateColumn = (columnName, columnData) => {
-      firestore
-        .collection("columns")
-        .doc(columnName)
-        .update({
-          taskIds: columnData.taskIds
-        });
+    firestore
+      .collection("columns")
+      .doc(startColumnName[0].toString())
+      .update({
+        taskIds: newState.newStart[startColumnName].taskIds
+      });
 
-      firestore
-        .collection("projects")
-        .doc(drraggableId)
-        .update({
-          currentColumn: newFinish.id
-        })
-        .then(() => {
-          dispatch({ type: "UPDATE_COLUMN_SUCCESS" });
-        })
-        .catch(err => {
-          dispatch({ type: "UPDATE_COLUMN_ERROR", err });
-        });
-    };
+    firestore
+      .collection("columns")
+      .doc(finishColumnName[0].toString())
+      .update({
+        taskIds: newState.newFinish[finishColumnName].taskIds
+      });
 
-    for (let key in columns) {
-      if (key === "column-1") {
-        const columnOne = columns[key];
-        UpdateColumn("column-1", columnOne);
-      } else if (key === "column-2") {
-        const columnSecond = columns[key];
-        UpdateColumn("column-2", columnSecond);
-      } else if (key === "column-3") {
-        const columnThird = columns[key];
-        UpdateColumn("column-3", columnThird);
-      }
-    }
+    firestore
+      .collection("projects")
+      .doc(taskId)
+      .update({
+        currentColumn: finishColumnName[0]
+      })
+      .then(() => {
+        dispatch({ type: "UPDATE_COLUMN_SUCCESS" });
+      })
+      .catch(err => {
+        dispatch({ type: "UPDATE_COLUMN_ERROR", err });
+      });
+
+    // for (let key in columns) {
+    //   if (key === "column-1") {
+    //     const columnOne = columns[key];
+    //     UpdateColumn("column-1", columnOne);
+    //   } else if (key === "column-2") {
+    //     const columnSecond = columns[key];
+    //     UpdateColumn("column-2", columnSecond);
+    //   } else if (key === "column-3") {
+    //     const columnThird = columns[key];
+    //     UpdateColumn("column-3", columnThird);
+    //   }
+    // }
   };
 };

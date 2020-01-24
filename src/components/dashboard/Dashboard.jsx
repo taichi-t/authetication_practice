@@ -111,14 +111,17 @@ class Dashboard extends Component {
 
     const newState = {
       ...this.state,
-      columns: {
+      newFinish: {
         ...this.state.columns,
-        [newStart.id]: newStart,
         [newFinish.id]: newFinish
+      },
+      newStart: {
+        ...this.state.columns,
+        [newStart.id]: newStart
       }
     };
 
-    this.handleChangeColumn(newState, newFinish, draggableId);
+    this.handleChangeColumn(newState, draggableId);
   };
   render() {
     const { projects, auth, notifications, columns, columnOrder } = this.props;
@@ -232,8 +235,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     UpdateIndex: newState => dispatch(UpdateIndex(newState)),
-    UpdateColumn: (newState, newFinish, draggableId) =>
-      dispatch(UpdateColumn(newState, newFinish, draggableId))
+    UpdateColumn: (newState, draggableId) =>
+      dispatch(UpdateColumn(newState, draggableId))
   };
 };
 
