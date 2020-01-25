@@ -105,38 +105,47 @@ export const UpdateColumn = (newState, drraggableId) => {
     const taskId = drraggableId;
     const startColumnName = Object.keys(newState.newStart);
     const finishColumnName = Object.keys(newState.newFinish);
+    const batch = firestore.batch();
+
+    console.log(String(startColumnName[0]));
+    console.log(String(finishColumnName[0]));
+    console.log(taskId);
+
     const startColumnRef = firestore
       .collection("columns")
-      .doc(startColumnName[0].toString());
+      .doc(String(startColumnName[0]));
+    batch.update(startColumnRef, {
+      taskIds: newState.newStart[startColumnName].taskIds
+    });
 
     const finishColumnRef = firestore
       .collection("columns")
-      .doc(finishColumnName[0].toString());
+      .doc(String(finishColumnName[0]));
+    batch.update(finishColumnRef, {
+      taskIds: newState.newFinish[finishColumnName].taskIds
+    });
 
-    const projectRef = firestore.collection("projects").doc(taskId);
+    const projectRef = firestore.collection("projects").doc(String(taskId));
+    batch.update(projectRef, {
+      currentColumn: finishColumnName[0]
+    });
 
-    firestore
-      .runTransaction(async transaction => {
-        const [
-          startColumnDoc,
-          finishColumnDoc,
-          projectDoc
-        ] = await Promise.all([
-          transaction.get(startColumnRef),
-          transaction.get(finishColumnRef),
-          transaction.get(projectRef)
-        ]);
+    // firestore
+    //   .runTransaction(async transaction => {
+    //     const [
+    //       startColumnDoc,
+    //       finishColumnDoc,
+    //       projectDoc
+    //     ] = await Promise.all([
+    //       transaction.get(startColumnRef),
+    //       transaction.get(finishColumnRef),
+    //       transaction.get(projectRef)
+    //     ]);
 
-        transaction.update(startColumnRef, {
-          taskIds: newState.newStart[startColumnName].taskIds
-        });
-        transaction.update(finishColumnRef, {
-          taskIds: newState.newFinish[finishColumnName].taskIds
-        });
-        transaction.update(projectRef, {
-          currentColumn: finishColumnName[0]
-        });
-      })
+    //     transaction.update;
+    //   })
+    batch
+      .commit()
 
       .then(() => {
         dispatch({ type: "UPDATE_COLUMN_SUCCESS" });
