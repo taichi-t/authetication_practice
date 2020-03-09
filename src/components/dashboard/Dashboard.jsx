@@ -37,9 +37,6 @@ class Dashboard extends Component {
     });
   };
   onDragEnd = result => {
-    // document.body.style.color = "inherit";
-    // document.body.style.color = "inherit";
-
     const newColumns = {};
     if (this.props.columns) {
       for (let i = 0, l = this.props.columns.length; i < l; i += 1) {
