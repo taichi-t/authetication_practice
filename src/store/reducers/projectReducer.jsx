@@ -26,6 +26,7 @@ const projectReducer = (state = initState, action) => {
       return state;
 
     case "UPDATE_COLUMN_SUCCESS":
+      console.log(action);
       console.log("Update Column");
       return state;
 

@@ -121,6 +121,7 @@ class Dashboard extends Component {
     this.handleChangeColumn(newState, newFinish, draggableId);
   };
   render() {
+    console.log(this.props);
     const { projects, auth, notifications, columns, columnOrder } = this.props;
     const newColumnOrder = columnOrder && columnOrder[0].columnOrder;
 
@@ -133,7 +134,7 @@ class Dashboard extends Component {
       }
     }
 
-    //Those projects converted to onject array
+    //Those projects converted to object array
     const newProjects = {};
     if (projects) {
       for (let i = 0, l = projects.length; i < l; i += 1) {
@@ -220,6 +221,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state);
   return {
     projects: state.firestore.ordered.projects,
     auth: state.firebase.auth,

@@ -43,6 +43,7 @@ export const deleteProject = task => {
     const firebase = getFirebase();
     const columnId = task.task.currentColumn;
     const taskId = task.task.id;
+    console.log(taskId);
 
     firestore
       .collection("columns")
@@ -68,7 +69,7 @@ export const deleteProject = task => {
 export const UpdateIndex = newState => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
-
+    console.log(newState);
     const UpdateIndex = homeindex => {
       firestore
         .collection("columns")
@@ -100,8 +101,9 @@ export const UpdateIndex = newState => {
 export const UpdateColumn = (newState, newFinish, drraggableId) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
-
     const columns = newState.columns;
+
+    console.log(columns);
 
     const UpdateColumn = (columnName, columnData) => {
       firestore
@@ -118,7 +120,12 @@ export const UpdateColumn = (newState, newFinish, drraggableId) => {
           currentColumn: newFinish.id
         })
         .then(() => {
-          dispatch({ type: "UPDATE_COLUMN_SUCCESS" });
+          dispatch({
+            type: "UPDATE_COLUMN_SUCCESS",
+            newState,
+            columnName,
+            columnData
+          });
         })
         .catch(err => {
           dispatch({ type: "UPDATE_COLUMN_ERROR", err });
